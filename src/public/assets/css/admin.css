@@ -1,0 +1,62 @@
+/* src/public/css/admin.css */
+
+/* 1. Tổng quan */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 2. Sidebar (Menu trái) */
+.sidebar {
+    min-height: 100vh;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+    background-color: #fff;
+    z-index: 100;
+}
+
+.sidebar .nav-link {
+    font-weight: 500;
+    color: #636e72;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    transition: all 0.3s;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #f1f2f6;
+    color: #0d6efd;
+    padding-left: 25px; /* Hiệu ứng trượt sang phải */
+}
+
+.sidebar .nav-link.active {
+    background-color: #e7f1ff;
+    color: #0d6efd !important;
+    font-weight: 700;
+}
+
+.sidebar .nav-link.btn-logout:hover {
+    background-color: #ffeaea;
+    color: #dc3545 !important;
+}
+
+/* 3. Main Content */
+main {
+    transition: margin-left 0.3s;
+}
+
+/* 4. Select trạng thái */
+.status-select {
+    min-width: 130px;
+    cursor: pointer;
+    font-weight: 600;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 5. Màu sắc trạng thái (Custom) */
+.status-pending { background-color: #ffc107; color: #000; }
+.status-confirmed { background-color: #0dcaf0; color: #000; }
+.status-shipping { background-color: #0d6efd; color: #fff; }
+.status-completed { background-color: #198754; color: #fff; }
+.status-cancelled { background-color: #dc3545; color: #fff; }

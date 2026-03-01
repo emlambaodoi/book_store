@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Chương Sách - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="products.html"><i class="fas fa-arrow-left me-2"></i> Trở về Quản lý Sách</a>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold text-dark">Danh sách chương: <span id="book-title-display" class="text-primary">Đang tải...</span></h3>
+            <button class="btn btn-success fw-bold" onclick="showAddModal()">
+                <i class="fas fa-plus me-1"></i> Thêm Chương Mới
+            </button>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th width="10%">Chương số</th>
+                            <th width="40%">Tiêu đề chương</th>
+                            <th width="20%">Ngày tạo</th>
+                            <th width="30%" class="text-center">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="chapter-list">
+                        <tr><td colspan="4" class="text-center py-4">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="chapterModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="chapterModalLabel">Thêm Chương Mới</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="chapter-form">
+                        <input type="hidden" id="chapter-id">
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Chương số</label>
+                                <input type="number" class="form-control" id="chapter-number" required min="1">
+                            </div>
+                            <div class="col-md-9">
+                                <label class="form-label fw-bold">Tiêu đề chương</label>
+                                <input type="text" class="form-control" id="chapter-title" required placeholder="VD: Lời mở đầu...">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nội dung chương</label>
+                            <textarea class="form-control" id="chapter-content" rows="15" required placeholder="Nhập nội dung vào đây..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="btn-save-chapter" onclick="saveChapter()">Lưu Chương</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/admin-chapters.js"></script>
+</body>
+</html>

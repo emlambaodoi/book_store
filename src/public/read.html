@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đọc Sách - PolyBook</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <style>
+        body.theme-light { background-color: #f8f9fa; color: #212529; }
+        body.theme-sepia { background-color: #f4ecd8; color: #5b4636; }
+        body.theme-dark { background-color: #121212; color: #cfd8dc; }
+
+        .reading-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 15px;
+        }
+
+        .reading-content {
+            font-family: 'Lora', serif;
+            font-size: 20px;
+            line-height: 1.8;
+            text-align: left; /* Đã Căn trái */
+            white-space: pre-wrap;
+            word-break: keep-all; 
+            overflow-wrap: break-word;
+            transition: font-size 0.3s ease;
+        }
+
+        .reading-toolbar {
+            position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9); border-radius: 30px;
+            padding: 15px 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex; flex-direction: column; gap: 15px; align-items: center; z-index: 1000;
+        }
+        
+        body.theme-dark .reading-toolbar { background: rgba(40, 40, 40, 0.9); box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .toolbar-btn { background: none; border: none; font-size: 1.2rem; color: #6c757d; cursor: pointer; transition: 0.2s; }
+        body.theme-dark .toolbar-btn { color: #adb5bd; }
+        .toolbar-btn:hover { color: #0d6efd; transform: scale(1.2); }
+        
+        .theme-circle { width: 25px; height: 25px; border-radius: 50%; cursor: pointer; border: 2px solid #ccc; }
+        .bg-light-theme { background: #fff; }
+        .bg-sepia-theme { background: #f4ecd8; }
+        .bg-dark-theme { background: #121212; border-color: #555; }
+    </style>
+</head>
+<body class="theme-light">
+    
+    <nav class="navbar navbar-dark bg-dark sticky-top shadow-sm py-2">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a id="back-to-book" href="index.html" class="text-white text-decoration-none">
+                <i class="fas fa-arrow-left me-2"></i> Trở về
+            </a>
+            <h6 class="text-white mb-0 text-truncate px-3" id="nav-chapter-title" style="max-width: 60%;">Đang tải...</h6>
+            <a href="index.html" class="text-white"><i class="fas fa-home"></i></a>
+        </div>
+    </nav>
+
+    <div class="reading-toolbar">
+        <button class="toolbar-btn" id="btn-font-increase" title="Tăng cỡ chữ"><b>A+</b></button>
+        <button class="toolbar-btn" id="btn-font-decrease" title="Giảm cỡ chữ"><b>A-</b></button>
+        <div class="my-2 border-bottom w-100"></div>
+        <div class="theme-circle bg-light-theme" data-theme="theme-light" title="Nền sáng"></div>
+        <div class="theme-circle bg-sepia-theme" data-theme="theme-sepia" title="Nền vàng"></div>
+        <div class="theme-circle bg-dark-theme" data-theme="theme-dark" title="Nền tối"></div>
+    </div>
+
+    <main class="reading-container">
+        <div class="text-center mb-5 mt-3">
+            <h2 class="fw-bold" id="chapter-title" style="color: var(--bs-primary);">Đang tải nội dung...</h2>
+        </div>
+        
+        <div id="chapter-content" class="reading-content">
+            <div class="text-center py-5"><div class="spinner-border text-primary"></div></div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-5 pt-4">
+            <button class="btn btn-outline-secondary px-4 rounded-pill" id="btn-prev" disabled>
+                <i class="fas fa-chevron-left me-2"></i> Chương trước
+            </button>
+            <button class="btn btn-primary px-4 rounded-pill shadow-sm" id="btn-next" disabled>
+                Chương tiếp <i class="fas fa-chevron-right ms-2"></i>
+            </button>
+        </div>
+
+        <div id="review-section" class="text-center mt-5 p-4 rounded-4 bg-white shadow-sm border" style="display: none;">
+            <h4 class="fw-bold text-success mb-2">🎉 Chúc mừng bạn đã đọc xong sách!</h4>
+            <p class="text-muted mb-4">Hãy để lại một vài dòng cảm nhận để giới thiệu cuốn sách này cho các độc giả khác nhé.</p>
+            <button class="btn btn-warning px-4 py-2 fw-bold rounded-pill shadow-sm text-dark" id="btn-show-review">
+                <i class="fas fa-pen-nib me-2"></i> Viết Đánh Giá Ngay
+            </button>
+        </div>
+    </main>
+
+    <div class="modal fade" id="reviewModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Viết đánh giá của bạn</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="review-form">
+                        <div class="mb-3 text-center">
+                            <label class="form-label d-block fw-bold">Bạn chấm mấy sao?</label>
+                            <div class="rating-stars fs-2 text-warning" style="cursor: pointer;">
+                                <i class="far fa-star" data-value="1"></i>
+                                <i class="far fa-star" data-value="2"></i>
+                                <i class="far fa-star" data-value="3"></i>
+                                <i class="far fa-star" data-value="4"></i>
+                                <i class="far fa-star" data-value="5"></i>
+                            </div>
+                            <input type="hidden" id="rating-input" value="0">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nội dung đánh giá</label>
+                            <textarea id="review-comment" class="form-control" rows="4" placeholder="Sách này thế nào?..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 fw-bold">Gửi đánh giá</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/read.js"></script>
+</body>
+</html>

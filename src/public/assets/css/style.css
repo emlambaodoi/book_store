@@ -1,0 +1,90 @@
+/* Custom CSS */
+:root {
+    --primary-color: #0d6efd;
+    --accent-color: #ff9f43;
+}
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+/* ==========================================
+   1. CARD SẢN PHẨM (SÁCH)
+   ========================================== */
+/* Hiệu ứng hover & shadow */
+.book-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background: #fff;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Ảnh bìa: Cố định chiều cao để không bị lệch khung */
+.book-card img {
+    height: 250px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+/* ==========================================
+   2. TYPOGRAPHY & NÚT BẤM
+   ========================================== */
+/* Giá tiền */
+.price-tag {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* Nút tròn tiện ích (ví dụ nút tim yêu thích) */
+.btn-circle {
+    width: 35px; 
+    height: 35px; 
+    border-radius: 50%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    padding: 0;
+}
+
+/* ==========================================
+   3. MENU DANH MỤC TRANG CHỦ (Cột bên trái)
+   ========================================== */
+/* Tùy chỉnh làm đẹp cho menu danh mục (Select Box dạng list) */
+#category-filter option {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f1f1f1;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+/* Hiệu ứng khi di chuột vào danh mục */
+#category-filter option:hover {
+    background-color: #e9ecef;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* Hiệu ứng khi danh mục đang được chọn */
+#category-filter option:checked {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+}
+
+/* Tùy chỉnh thanh cuộn (Scrollbar) cho danh mục */
+#category-filter::-webkit-scrollbar {
+    width: 6px;
+}
+
+#category-filter::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}

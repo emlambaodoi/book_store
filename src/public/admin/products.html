@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Sách - Admin PolyBook</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebar-container" class="col-md-3 col-lg-2 d-md-block sidebar collapse"></nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2 text-primary fw-bold">📚 Quản Lý Sách</h1>
+                <button class="btn btn-primary shadow-sm" onclick="openModal()">
+                    <i class="fas fa-plus me-2"></i>Thêm sách mới
+                </button>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light text-secondary">
+                                <tr>
+                                    <th class="text-center" style="width: 5%">STT</th>
+                                    <th class="ps-2" style="width: 10%">Ảnh</th>
+                                    <th style="width: 30%">Tên sách</th>
+                                    <th style="width: 20%">Tác giả</th>
+                                    <th style="width: 15%">Danh mục</th> 
+                                    <th class="text-end pe-4" style="width: 20%">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="product-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div class="modal fade" id="productModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-bold" id="modal-title">Thêm sách mới</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="product-form">
+                    <input type="hidden" id="book-id">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Tên sách <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="title" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Tác giả <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="author" required>
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold">Danh mục sách <span class="text-danger">*</span></label>
+                            <select class="form-select" id="category_id" required>
+                                <option value="">-- Chọn danh mục --</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Mã ISBN</label>
+                            <input type="text" class="form-control" id="isbn" placeholder="978-..." >
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Năm xuất bản</label>
+                            <input type="number" class="form-control" id="year" placeholder="2024">
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Ảnh bìa</label>
+                            <input type="file" class="form-control" id="image" accept="image/*">
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Mô tả ngắn</label>
+                            <textarea class="form-control" id="description" rows="2"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Nội dung chi tiết</label>
+                            <textarea class="form-control" id="content" rows="4"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="saveBook()">Lưu thông tin</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<template id="product-row-template">
+    <tr>
+        <td class="text-center fw-bold text-muted row-index"></td> <td class="ps-2">
+            <img src="" class="product-img rounded border shadow-sm" width="50" height="70" style="object-fit: cover;">
+        </td>
+        <td>
+            <div class="product-title fw-bold text-primary"></div>
+        </td>
+        <td class="product-author text-muted"></td>
+        <td><span class="badge bg-info text-dark product-category"></span></td> 
+        <td class="text-end pe-4">
+            <button class="btn btn-sm btn-outline-info me-2 btn-chapters fw-bold"><i class="fas fa-list-ul me-1"></i>Chương</button>
+            <button class="btn btn-sm btn-outline-warning me-2 btn-edit"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-sm btn-outline-danger btn-delete"><i class="fas fa-trash"></i></button>
+        </td>
+    </tr>
+</template>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/common.js"></script>
+<script src="../assets/js/admin-layout.js"></script>
+<script src="../assets/js/admin-products.js"></script>
+
+</body>
+</html>

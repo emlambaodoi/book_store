@@ -1,0 +1,35 @@
+/* admin-reviews.css */
+
+/* Điểm sao */
+.rating-stars {
+    color: #ffc107; /* Màu vàng của sao */
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+/* Nội dung comment */
+.review-comment {
+    max-width: 350px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+    color: #555;
+}
+
+/* Tên sách */
+.book-title {
+    font-weight: 600;
+    color: #0d6efd;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Table hover effect */
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+}
